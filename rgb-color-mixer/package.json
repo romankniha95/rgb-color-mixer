@@ -5,7 +5,7 @@
   "main": "src/js/main.js",
   "scripts": {
     "start": "node server.js",
-    "build": "mkdir dist && xcopy src\\* dist\\ /E /I /Y && powershell -Command \"(Get-Content dist/js/main.js) -replace '\\$OPENROUTER_API_KEY', '$env:OPENROUTER_API_KEY' | Set-Content dist/js/main.js\""
+    "build": "mkdir -p dist && cp -r src/* dist/ && sed -i \"s/\\$OPENROUTER_API_KEY/$OPENROUTER_API_KEY/g\" dist/js/main.js"
   },
   "keywords": [
     "color",
