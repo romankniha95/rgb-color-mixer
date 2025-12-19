@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RGB Color Mixer TEST</title>
-    <link rel="icon" href="icons/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css">
+    <title>RGB Color Mixer</title>
+    <link rel="icon" href="src/icons/favicon.svg">
+    <link rel="stylesheet" href="src/css/styles.css">
     <style>
         .top-controls { display: flex; gap: 8px; }
         .lang-toggle { appearance: none; border: 0; padding: 8px; border-radius: 10px; cursor: pointer; background: rgba(16,24,40,0.04); color: var(--text); font-weight: 600; }
@@ -38,27 +38,27 @@
             <div class="app-inner">
                 <div class="color-display" id="colorDisplay">#808080</div>
                 <div class="display-mode" role="tablist" aria-label="Display mode">
-                    <button class="mode-btn" data-mode="hex" aria-pressed="true">HEXTEST</button>
+                    <button class="mode-btn" data-mode="hex" aria-pressed="true">HEX</button>
                     <button class="mode-btn" data-mode="rgb" aria-pressed="false">RGB</button>
                 </div>
 
                 <div class="sliders">
                 <div class="slider-row">
-                    <img class="icon" src="icons/red.svg" alt="R">
+                    <img class="icon" src="src/icons/red.svg" alt="R">
                     <label for="red">Červená</label>
                     <input class="slider red" type="range" id="red" min="0" max="255" value="128">
                     <input class="num" type="text" id="redNum" value="128" aria-label="Červená hodnota">
                 </div>
 
                 <div class="slider-row">
-                    <img class="icon" src="icons/green.svg" alt="G">
+                    <img class="icon" src="src/icons/green.svg" alt="G">
                     <label for="green">Zelená</label>
                     <input class="slider green" type="range" id="green" min="0" max="255" value="128">
                     <input class="num" type="text" id="greenNum" value="128" aria-label="Zelená hodnota">
                 </div>
 
                 <div class="slider-row">
-                    <img class="icon" src="icons/blue.svg" alt="B">
+                    <img class="icon" src="src/icons/blue.svg" alt="B">
                     <label for="blue">Modrá</label>
                     <input class="slider blue" type="range" id="blue" min="0" max="255" value="128">
                     <input class="num" type="text" id="blueNum" value="128" aria-label="Modrá hodnota">
@@ -82,10 +82,8 @@
             </div>
         </div>
 
-        <div class="panel blank-panel">
-            <p>Test nového okna</p>
-        </div>
+
     </main>
-    <script src="js/main.js"></script>
+    <script src="src/js/main.js"></script>
 </body>
 </html>
