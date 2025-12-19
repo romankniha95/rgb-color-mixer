@@ -5,7 +5,7 @@
   "main": "src/js/main.js",
   "scripts": {
     "start": "node server.js",
-    "build": "mkdir dist && xcopy src\\* dist\\ /E /I /Y"
+    "build": "mkdir dist && xcopy src\\* dist\\ /E /I /Y && node -e \"const fs = require('fs'); const content = fs.readFileSync('dist/js/main.js', 'utf8').replace('window.OPENROUTER_API_KEY || \\'YOUR_API_KEY_HERE\\'', '\\'' + process.env.OPENROUTER_API_KEY + '\\''); fs.writeFileSync('dist/js/main.js', content);\""
   },
   "keywords": [
     "color",
