@@ -245,19 +245,27 @@ if(modeButtons && modeButtons.length){
         localStorage.setItem('rgb-display-mode', m);
         modeButtons.forEach(x => x.setAttribute('aria-pressed', String(x === b)));
         updateColor();
-        // Update maxlength for num inputs
+        // Update maxlength and inputmode for num inputs
         const maxLen = m === 'hex' ? 2 : 3;
+        const inputMode = m === 'hex' ? 'text' : 'numeric';
         redNum.setAttribute('maxlength', maxLen);
+        redNum.setAttribute('inputmode', inputMode);
         greenNum.setAttribute('maxlength', maxLen);
+        greenNum.setAttribute('inputmode', inputMode);
         blueNum.setAttribute('maxlength', maxLen);
+        blueNum.setAttribute('inputmode', inputMode);
     }));
 }
-// Set initial maxlength
+// Set initial maxlength and inputmode
 const initialMode = getDisplayMode();
 const maxLen = initialMode === 'hex' ? 2 : 3;
+const inputMode = initialMode === 'hex' ? 'text' : 'numeric';
 redNum.setAttribute('maxlength', maxLen);
+redNum.setAttribute('inputmode', inputMode);
 greenNum.setAttribute('maxlength', maxLen);
+greenNum.setAttribute('inputmode', inputMode);
 blueNum.setAttribute('maxlength', maxLen);
+blueNum.setAttribute('inputmode', inputMode);
 if(themeToggle){
     themeToggle.addEventListener('click', ()=>{
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
