@@ -321,7 +321,7 @@ askAiButton.addEventListener('click', async () => {
         // Set OPENROUTER_API_KEY environment variable in Netlify
         // API key is securely stored in Netlify Function
 
-        const response = await fetch('/.netlify/functions/ai', {
+        const response = await fetch('https://your-worker.your-subdomain.workers.dev/ai', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
