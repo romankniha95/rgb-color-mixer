@@ -123,9 +123,6 @@ function updateColor(){
     // colored glow / halo for the display: stronger at higher values
     const glow = `0 6px 18px rgba(${r}, ${g}, ${b}, 0.30), 0 22px 44px rgba(${r}, ${g}, ${b}, 0.18), 0 48px 96px rgba(${r}, ${g}, ${b}, 0.08)`;
     colorDisplay.style.setProperty('--display-glow', glow);
-
-    // update color name
-    updateColorName(r, g, b);
 }
 
 function updateRangeBackground(rangeEl, color){

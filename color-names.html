@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Names - RGB Color Mixer</title>
+    <link rel="icon" href="src/icons/favicon.svg">
+    <link rel="stylesheet" href="src/css/styles.css">
+    <style>
+        .top-controls { display: flex; gap: 8px; }
+        .lang-toggle { appearance: none; border: 0; padding: 8px; border-radius: 10px; cursor: pointer; background: rgba(16,24,40,0.04); color: var(--text); font-weight: 600; }
+        [data-theme="dark"] .lang-toggle { background: rgba(255,255,255,0.06); }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <h1>RGB Color Mixer</h1>
+            <div class="top-controls">
+                <a href="index.html" class="lang-toggle">Mixer</a>
+                <button id="langToggle" class="lang-toggle" aria-label="Toggle language">EN</button>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Prepni tmavý režim">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4" fill="currentColor" />
+                        <g stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                        </g>
+                    </svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <div class="panel blank-panel">
+            <h2>Color Names</h2>
+            <p>Zatiaľ prázdna stránka pre názvy farieb.</p>
+        </div>
+    </main>
+    <script src="src/js/main.js"></script>
+</body>
+</html>
