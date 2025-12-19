@@ -80,21 +80,32 @@ body{
     font-weight: 600;
     font-size: 14px;
     border-radius: 8px;
-    background-color: var(--accent);
-    color: #ffffff;
-    border: none;
+    background-color: transparent;
+    color: var(--text);
+    border: 2px solid var(--muted);
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: all 0.2s ease, transform 0.2s ease;
 }
 
 .mode-btn:hover {
     transform: translateY(-2px);
+    border-color: var(--accent);
 }
 
 .mode-btn[aria-pressed="true"] {
     background-color: var(--accent);
     color: #ffffff;
+    border-color: var(--accent);
+}
+
+.mode-btn[data-mode="hex"] {
+    background-color: var(--accent);
+    color: #ffffff;
     border: none;
+}
+
+.mode-btn[data-mode="hex"]:hover {
+    transform: translateY(-2px);
 }
 
 .mode-btn:focus {
