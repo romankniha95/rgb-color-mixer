@@ -80,7 +80,7 @@ body{
     font-weight: 600;
     font-size: 14px;
     border-radius: 8px;
-    background-color: var(--accent);
+    background-color: var(--muted);
     color: #ffffff;
     border: none;
     cursor: pointer;
@@ -92,7 +92,7 @@ body{
 }
 
 .mode-btn[aria-pressed="true"] {
-    background-color: var(--muted);
+    background-color: var(--accent);
 }
 
 .mode-btn:focus {
