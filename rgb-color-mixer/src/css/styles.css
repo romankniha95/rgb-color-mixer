@@ -177,8 +177,54 @@ body{
     .content{display:grid;grid-template-columns:1fr;gap:20px}
 }
 
+/* Mobile responsiveness */
+@media (max-width:768px){
+    .app-inner{--track-width:320px;--col-icon:24px;--col-label:50px;--col-num:56px}
+    .color-display{width:var(--track-width);height:180px;font-size:16px}
+    .sliders{gap:14px}
+    .slider-row{min-height:44px}
+    .icon{width:16px;height:16px;left:calc(-1 * (var(--col-label) + var(--col-icon) + 8px))}
+    .slider-row label{left:calc(-1 * (var(--col-label) + 2px));font-size:14px}
+    .num{left:calc(100% + 8px);width:var(--col-num);font-size:14px}
+}
+
 @media (max-width:480px){
-    .color-display{width:180px;height:180px}
+    .app-inner{--track-width:280px}
+    .color-display{width:var(--track-width);height:160px;font-size:14px}
+    .topbar-inner{padding:8px 12px}
+    .topbar h1{font-size:16px}
+    .content{margin:12px auto;padding:0 10px}
+    .panel{padding:14px}
+    .app-panel{padding:16px}
+}
+
+/* Very small screens */
+@media (max-width:360px){
+    .app-inner{--track-width:240px;--col-label:45px;--col-num:50px}
+    .color-display{height:140px;font-size:12px}
+    .slider-row{min-height:40px}
+    .icon{width:14px;height:14px}
+    .slider-row label{font-size:13px}
+    .num{font-size:13px}
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .slider-row{min-height:56px}
+    .slider::-webkit-slider-thumb{width:22px;height:22px}
+    .slider::-moz-range-thumb{width:22px;height:22px}
+    .num{height:40px}
+    .color-display:active{transform:scale(0.96)}
+    .mode-btn{min-height:44px;padding:12px 16px}
+    .ai-button{min-height:44px;padding:12px 20px}
+}
+
+/* Landscape mobile */
+@media (max-width:768px) and (orientation: landscape){
+    .app-inner{--track-width:280px}
+    .color-display{height:140px}
+    .topbar-inner{padding:6px 12px}
+    .content{margin:8px auto}
 }
 
 /* AI Assistant styles */
