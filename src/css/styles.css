@@ -101,16 +101,6 @@ body{
     border-color: var(--accent);
 }
 
-.mode-btn[data-mode="hex"] {
-    background-color: var(--accent);
-    color: #ffffff;
-    border: none;
-}
-
-.mode-btn[data-mode="hex"]:hover {
-    transform: translateY(-2px);
-}
-
 .mode-btn:focus {
     outline: none;
     box-shadow: 0 0 0 4px rgba(100, 150, 255, 0.08);
