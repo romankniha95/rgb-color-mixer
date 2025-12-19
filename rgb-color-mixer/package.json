@@ -1,0 +1,25 @@
+{
+  "name": "rgb-color-mixer",
+  "version": "1.0.0",
+  "description": "A simple RGB color mixer application.",
+  "main": "src/js/main.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "mkdir dist && xcopy src\\* dist\\ /E /I /Y"
+  },
+  "keywords": [
+    "color",
+    "mixer",
+    "rgb",
+    "web",
+    "responsive"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.1",
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
+  }
+}

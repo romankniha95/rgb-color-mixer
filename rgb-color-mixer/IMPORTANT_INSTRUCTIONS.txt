@@ -1,0 +1,5 @@
+I have finished implementing the AI assistant feature using OpenRouter.
+
+Please remember to replace 'YOUR_OPENROUTER_API_KEY' in `src/js/main.js` with your actual OpenRouter API key.
+
+After that, you can open the app at http://localhost:3000/src/ in your browser to see the changes.
