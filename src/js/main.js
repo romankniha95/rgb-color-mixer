@@ -123,6 +123,9 @@ function updateColor(){
     // colored glow / halo for the display: stronger at higher values
     const glow = `0 6px 18px rgba(${r}, ${g}, ${b}, 0.30), 0 22px 44px rgba(${r}, ${g}, ${b}, 0.18), 0 48px 96px rgba(${r}, ${g}, ${b}, 0.08)`;
     colorDisplay.style.setProperty('--display-glow', glow);
+
+    // update color name
+    updateColorName(r, g, b);
 }
 
 function updateRangeBackground(rangeEl, color){
@@ -284,6 +287,24 @@ if(langToggle){
         const current = getLanguage();
         const next = current === 'en' ? 'sk' : 'en';
         setLanguage(next);
+    });
+}
+
+function updateColorName(r, g, b) {
+    const colorHex = rgbToHex(r, g, b);
+    fetch('https://wild-shadow-4360.romankniha95.workers.dev/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            colorHex,
+            language: getLanguage(),
+            prompt: 'What is the name of this color in simple terms? Just the name, no extra text.'
+        })
+    }).then(res => res.json()).then(data => {
+        const name = data.response ? data.response.trim() : 'Neznáma';
+        document.getElementById('colorName').textContent = 'Názov farby: ' + name;
+    }).catch(() => {
+        document.getElementById('colorName').textContent = 'Názov farby: Neznáma';
     });
 }
 
