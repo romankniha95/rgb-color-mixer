@@ -5,7 +5,7 @@
   "main": "src/js/main.js",
   "scripts": {
     "start": "node server.js",
-    "build": "mkdir -p dist && cp -r src/* dist/ && echo \"window.OPENROUTER_API_KEY = '$OPENROUTER_API_KEY';\" > dist/js/config.js"
+    "build": "mkdir -p dist && cp -r src/* dist/"
   },
   "keywords": [
     "color",
@@ -16,7 +16,9 @@
   ],
   "author": "Your Name",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
   "devDependencies": {
     "live-server": "^1.2.1",
     "express": "^4.18.2",

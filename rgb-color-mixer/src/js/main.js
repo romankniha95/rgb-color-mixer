@@ -311,20 +311,17 @@ askAiButton.addEventListener('click', async () => {
     try {
         // !!! IMPORTANT !!!
         // Set OPENROUTER_API_KEY environment variable in Netlify
-        const apiKey = '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';
+        // API key is securely stored in Netlify Function
 
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        const response = await fetch('/.netlify/functions/ai', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'allenai/olmo-3.1-32b-think:free',
-                messages: [
-                    { role: 'system', content: `You are a helpful assistant that knows a lot about colors. You will be given a color and you should provide a short, interesting fact or story about it. Respond in ${getLanguage() === 'en' ? 'English' : 'Slovak'}.` },
-                    { role: 'user', content: `Tell me something interesting about the color with HEX code ${colorHex} (${colorRgb}).` }
-                ]
+                colorHex,
+                colorRgb,
+                language: getLanguage()
             })
         });
 
@@ -333,8 +330,10 @@ askAiButton.addEventListener('click', async () => {
         }
 
         const result = await response.json();
-        if (result.choices && result.choices[0] && result.choices[0].message) {
-            typeText(aiResponse, result.choices[0].message.content);
+        if (result.response) {
+            typeText(aiResponse, result.response);
+        } else if (result.error) {
+            throw new Error(result.error);
         } else {
             const lang = getLanguage();
             typeText(aiResponse, translations[lang].aiErrorShort);
