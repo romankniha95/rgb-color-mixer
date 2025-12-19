@@ -311,7 +311,7 @@ askAiButton.addEventListener('click', async () => {
     try {
         // !!! IMPORTANT !!!
         // Set OPENROUTER_API_KEY environment variable in Netlify
-        const apiKey = window.OPENROUTER_API_KEY || 'YOUR_API_KEY_HERE';
+        const apiKey = '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';
 
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
