@@ -291,21 +291,40 @@ if(langToggle){
 }
 
 function updateColorName(r, g, b) {
-    const colorHex = rgbToHex(r, g, b);
-    fetch('https://wild-shadow-4360.romankniha95.workers.dev/ai', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            colorHex,
-            language: getLanguage(),
-            prompt: 'What is the name of this color in simple terms? Just the name, no extra text.'
-        })
-    }).then(res => res.json()).then(data => {
-        const name = data.response ? data.response.trim() : 'Neznáma';
-        document.getElementById('colorName').textContent = 'Názov farby: ' + name;
-    }).catch(() => {
-        document.getElementById('colorName').textContent = 'Názov farby: Neznáma';
+    // Simple color name detection based on RGB values
+    const colors = [
+        { name: 'Červená', r: 255, g: 0, b: 0 },
+        { name: 'Zelená', r: 0, g: 255, b: 0 },
+        { name: 'Modrá', r: 0, g: 0, b: 255 },
+        { name: 'Žltá', r: 255, g: 255, b: 0 },
+        { name: 'Purpurová', r: 255, g: 0, b: 255 },
+        { name: 'Azúrová', r: 0, g: 255, b: 255 },
+        { name: 'Biela', r: 255, g: 255, b: 255 },
+        { name: 'Čierna', r: 0, g: 0, b: 0 },
+        { name: 'Sivá', r: 128, g: 128, b: 128 },
+        { name: 'Oranžová', r: 255, g: 165, b: 0 },
+        { name: 'Ružová', r: 255, g: 192, b: 203 },
+        { name: 'Hnedá', r: 165, g: 42, b: 42 },
+    ];
+
+    let closest = 'Neznáma';
+    let minDist = Infinity;
+    colors.forEach(color => {
+        const dist = Math.sqrt((r - color.r) ** 2 + (g - color.g) ** 2 + (b - color.b) ** 2);
+        if (dist < minDist) {
+            minDist = dist;
+            closest = color.name;
+        }
     });
+
+    // Special cases
+    if (r === g && g === b) {
+        if (r === 0) closest = 'Čierna';
+        else if (r === 255) closest = 'Biela';
+        else closest = 'Sivá';
+    }
+
+    document.getElementById('colorName').textContent = 'Názov farby: ' + closest;
 }
 
 // Initialize language
