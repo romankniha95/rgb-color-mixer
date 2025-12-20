@@ -40,7 +40,7 @@ const translations = {
 };
 
 function getLanguage() {
-    return localStorage.getItem('rgb-language') || 'sk';
+    return localStorage.getItem('rgb-language') || 'en';
 }
 
 function setLanguage(lang) {
