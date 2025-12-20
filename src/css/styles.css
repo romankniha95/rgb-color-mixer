@@ -360,8 +360,8 @@ body{
 }
 
 .tool-card:hover {
-    background: var(--bg-page);
-    color: var(--text);
+    background: var(--accent);
+    color: #ffffff;
 }
 
 .tool-card.tool-placeholder {
