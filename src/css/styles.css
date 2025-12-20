@@ -44,8 +44,8 @@ body{
 /* subtle hover glow for topbar */
 .topbar:hover{box-shadow:0 8px 30px rgba(59,130,246,0.06);transform:translateY(0);transition:box-shadow .18s ease}
 
-/* Main content centers two stacked panels */
-.content{max-width:820px;margin:18px auto;display:flex;flex-direction:column;align-items:center;gap:18px;padding:0 14px}
+/* Main content centers panels */
+.content{max-width:1400px;margin:18px auto;display:flex;flex-direction:column;align-items:center;gap:18px;padding:0 14px}
 .panel{width:100%;background:var(--surface);border-radius:12px;padding:18px;box-shadow:var(--panel-shadow)}
 .app-panel{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px}
 .blank-panel{min-height:120px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
@@ -341,7 +341,7 @@ body{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 18px;
-    max-width: 820px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
@@ -349,7 +349,7 @@ body{
     background: #333;
     color: white;
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 0;
     text-align: center;
     text-decoration: none;
     display: flex;
@@ -364,7 +364,43 @@ body{
     color: var(--text);
 }
 
+.tool-card.tool-placeholder {
+    opacity: 0.5;
+    cursor: default;
+}
+
 .tool-icon {
     width: 48px;
     height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+h2 {
+    text-align: center;
+    margin: 20px 0;
+    color: var(--text);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Responsive tools grid */
+@media (max-width: 1200px) {
+    .tools-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .tools-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }

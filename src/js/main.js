@@ -180,42 +180,44 @@ function clamp(v){
     return Math.min(255, Math.max(0, Math.round(v)));
 }
 
-// when ranges change, update color and number inputs
-red.addEventListener('input', ()=>{ updateColor(); updateRangeBackground(red, '#ef4444'); });
-green.addEventListener('input', ()=>{ updateColor(); updateRangeBackground(green, '#22c55e'); });
-blue.addEventListener('input', ()=>{ updateColor(); updateRangeBackground(blue, '#3b82f6'); });
+if (red) {
+    // when ranges change, update color and number inputs
+    red.addEventListener('input', ()=>{ updateColor(); updateRangeBackground(red, '#ef4444'); });
+    green.addEventListener('input', ()=>{ updateColor(); updateRangeBackground(green, '#22c55e'); });
+    blue.addEventListener('input', ()=>{ updateColor(); updateRangeBackground(blue, '#3b82f6'); });
 
-// when small inputs change (typed), parse depending on mode and sync ranges
-function parseAndSetFromInput(el, slider){
-    const mode = getDisplayMode();
-    let v = 0;
-    const raw = (el.value || '').toString().trim();
-    if(mode === 'rgb'){
-        v = clamp(Number(raw.replace(/[^0-9-]/g, '')));
-    } else {
-        // interpret as hex (allow with or without leading #)
-        const h = raw.replace(/[^0-9a-fA-F]/g, '');
-        if(h.length === 0) v = 0;
-        else v = clamp(parseInt(h.slice(0,2), 16));
+    // when small inputs change (typed), parse depending on mode and sync ranges
+    function parseAndSetFromInput(el, slider){
+        const mode = getDisplayMode();
+        let v = 0;
+        const raw = (el.value || '').toString().trim();
+        if(mode === 'rgb'){
+            v = clamp(Number(raw.replace(/[^0-9-]/g, '')));
+        } else {
+            // interpret as hex (allow with or without leading #)
+            const h = raw.replace(/[^0-9a-fA-F]/g, '');
+            if(h.length === 0) v = 0;
+            else v = clamp(parseInt(h.slice(0,2), 16));
+        }
+        slider.value = v;
+        updateColor();
     }
-    slider.value = v;
-    updateColor();
-}
 
-redNum.addEventListener('blur', ()=> parseAndSetFromInput(redNum, red));
-greenNum.addEventListener('blur', ()=> parseAndSetFromInput(greenNum, green));
-blueNum.addEventListener('blur', ()=> parseAndSetFromInput(blueNum, blue));
+    redNum.addEventListener('blur', ()=> parseAndSetFromInput(redNum, red));
+    greenNum.addEventListener('blur', ()=> parseAndSetFromInput(greenNum, green));
+    blueNum.addEventListener('blur', ()=> parseAndSetFromInput(blueNum, blue));
 
-// copy hex to clipboard when clicking color display
-colorDisplay.addEventListener('click', function(){
-    const toCopy = colorDisplay.textContent;
-    navigator.clipboard && navigator.clipboard.writeText(toCopy).then(()=>{
-        const old = colorDisplay.textContent;
-        const lang = getLanguage();
-        colorDisplay.textContent = translations[lang].copied;
-        setTimeout(()=> colorDisplay.textContent = old, 900);
+    // copy hex to clipboard when clicking color display
+    colorDisplay.addEventListener('click', function(){
+        const toCopy = colorDisplay.textContent;
+        navigator.clipboard && navigator.clipboard.writeText(toCopy).then(()=>{
+            const old = colorDisplay.textContent;
+            const lang = getLanguage();
+            colorDisplay.textContent = translations[lang].copied;
+            setTimeout(()=> colorDisplay.textContent = old, 900);
+        });
     });
-});
+}
 
 // initialize
 if (red) updateColor();
