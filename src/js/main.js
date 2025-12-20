@@ -355,73 +355,74 @@ function updateColorName(r, g, b) {
     document.getElementById('colorName').textContent = 'Názov farby: ' + closest;
 }
 
+// AI Assistant
+if (red) {
+    const askAiButton = document.getElementById('askAiButton');
+    const aiResponse = document.getElementById('aiResponse');
+    const aiLoading = document.getElementById('aiLoading');
+
+    function typeText(element, text, speed = 50) {
+        element.textContent = '';
+        let i = 0;
+        const timer = setInterval(() => {
+            element.textContent += text[i];
+            i++;
+            if (i >= text.length) clearInterval(timer);
+        }, speed);
+    }
+
+    askAiButton.addEventListener('click', async () => {
+        const r = red.value;
+        const g = green.value;
+        const b = blue.value;
+        const colorHex = rgbToHex(r, g, b);
+        const colorRgb = `rgb(${r}, ${g}, ${b})`;
+
+        aiLoading.style.display = 'block';
+        aiResponse.innerHTML = '';
+        askAiButton.disabled = true;
+
+        try {
+            // !!! IMPORTANT !!!
+            // Set OPENROUTER_API_KEY environment variable in Netlify
+            // API key is securely stored in Netlify Function
+
+            const response = await fetch('https://wild-shadow-4360.romankniha95.workers.dev/ai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    colorHex,
+                    colorRgb,
+                    language: getLanguage()
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            if (result.response) {
+                typeText(aiResponse, result.response);
+            } else if (result.error) {
+                throw new Error(result.error);
+            } else {
+                const lang = getLanguage();
+                typeText(aiResponse, translations[lang].aiErrorShort);
+            }
+
+        } catch (error) {
+            console.error('Error fetching AI response:', error);
+            const lang = getLanguage();
+            typeText(aiResponse, translations[lang].aiError);
+        } finally {
+            aiLoading.style.display = 'none';
+            askAiButton.disabled = false;
+        }
+    });
+}
+
 // Initialize language
 updateLanguage();
-
-// AI Assistant
-const askAiButton = document.getElementById('askAiButton');
-const aiResponse = document.getElementById('aiResponse');
-const aiLoading = document.getElementById('aiLoading');
-
-function typeText(element, text, speed = 50) {
-    element.textContent = '';
-    let i = 0;
-    const timer = setInterval(() => {
-        element.textContent += text[i];
-        i++;
-        if (i >= text.length) clearInterval(timer);
-    }, speed);
-}
-
-askAiButton.addEventListener('click', async () => {
-    const r = red.value;
-    const g = green.value;
-    const b = blue.value;
-    const colorHex = rgbToHex(r, g, b);
-    const colorRgb = `rgb(${r}, ${g}, ${b})`;
-
-    aiLoading.style.display = 'block';
-    aiResponse.innerHTML = '';
-    askAiButton.disabled = true;
-
-    try {
-        // !!! IMPORTANT !!!
-        // Set OPENROUTER_API_KEY environment variable in Netlify
-        // API key is securely stored in Netlify Function
-
-        const response = await fetch('https://wild-shadow-4360.romankniha95.workers.dev/ai', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                colorHex,
-                colorRgb,
-                language: getLanguage()
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        if (result.response) {
-            typeText(aiResponse, result.response);
-        } else if (result.error) {
-            throw new Error(result.error);
-        } else {
-            const lang = getLanguage();
-            typeText(aiResponse, translations[lang].aiErrorShort);
-        }
-
-    } catch (error) {
-        console.error('Error fetching AI response:', error);
-        const lang = getLanguage();
-        typeText(aiResponse, translations[lang].aiError);
-    } finally {
-        aiLoading.style.display = 'none';
-        askAiButton.disabled = false;
-    }
-});
-}
