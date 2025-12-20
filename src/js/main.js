@@ -23,7 +23,10 @@ const translations = {
         askAi: 'Ask AI about this color',
         copied: 'Copied!',
         aiError: 'An error occurred while communicating with AI. Please try again later.',
-        aiErrorShort: 'Sorry, AI did not respond correctly.'
+        aiErrorShort: 'Sorry, AI did not respond correctly.',
+        description: 'Welcome to Color Tools. Here you can find various tools for working with colors.',
+        allTools: 'All Tools',
+        comingSoon: 'Coming Soon'
     },
     sk: {
         title: 'RGB Color Mixer',
@@ -35,7 +38,10 @@ const translations = {
         askAi: 'Spýtať sa AI na túto farbu',
         copied: 'Skopírované!',
         aiError: 'Vyskytla sa chyba pri komunikácii s AI. Skúste to prosím znova neskôr.',
-        aiErrorShort: 'Ospravedlňujeme sa, AI neodpovedala správne.'
+        aiErrorShort: 'Ospravedlňujeme sa, AI neodpovedala správne.',
+        description: 'Vitajte v Color Tools. Tu nájdete rôzne nástroje na prácu s farbami.',
+        allTools: 'Všetky nástroje',
+        comingSoon: 'Čoskoro'
     }
 };
 
@@ -68,7 +74,7 @@ function updateLanguage() {
 
     // Update lang toggle text
     const langToggle = document.getElementById('langToggle');
-    if (langToggle) langToggle.textContent = lang === 'en' ? 'SK' : 'EN';
+    if (langToggle) langToggle.textContent = lang.toUpperCase();
 
     // Update aria-labels if exist
     const redNumEl = document.getElementById('redNum');
@@ -77,6 +83,14 @@ function updateLanguage() {
     if (greenNumEl) greenNumEl.setAttribute('aria-label', `${translations[lang].green} value`);
     const blueNumEl = document.getElementById('blueNum');
     if (blueNumEl) blueNumEl.setAttribute('aria-label', `${translations[lang].blue} value`);
+
+    // Update landing page texts
+    const description = document.querySelector('.description-panel p');
+    if (description) description.textContent = translations[lang].description;
+    const h2 = document.querySelector('h2');
+    if (h2) h2.textContent = translations[lang].allTools;
+    const placeholders = document.querySelectorAll('.tool-placeholder span');
+    placeholders.forEach(span => span.textContent = translations[lang].comingSoon);
 }
 
 function componentToHex(c){
