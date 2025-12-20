@@ -51,23 +51,32 @@ function setLanguage(lang) {
 function updateLanguage() {
     const lang = getLanguage();
     document.documentElement.lang = lang;
-    document.title = translations[lang].title;
 
-    // Update labels
-    document.querySelector('label[for="red"]').textContent = translations[lang].red;
-    document.querySelector('label[for="green"]').textContent = translations[lang].green;
-    document.querySelector('label[for="blue"]').textContent = translations[lang].blue;
-    document.querySelector('.hint').textContent = translations[lang].hint;
-    document.querySelector('.ai-assistant h3').textContent = translations[lang].aiAssistant;
-    document.getElementById('askAiButton').textContent = translations[lang].askAi;
+    // Update labels if exist
+    const redLabel = document.querySelector('label[for="red"]');
+    if (redLabel) redLabel.textContent = translations[lang].red;
+    const greenLabel = document.querySelector('label[for="green"]');
+    if (greenLabel) greenLabel.textContent = translations[lang].green;
+    const blueLabel = document.querySelector('label[for="blue"]');
+    if (blueLabel) blueLabel.textContent = translations[lang].blue;
+    const hint = document.querySelector('.hint');
+    if (hint) hint.textContent = translations[lang].hint;
+    const aiAssistant = document.querySelector('.ai-assistant h3');
+    if (aiAssistant) aiAssistant.textContent = translations[lang].aiAssistant;
+    const askAiButton = document.getElementById('askAiButton');
+    if (askAiButton) askAiButton.textContent = translations[lang].askAi;
 
     // Update lang toggle text
-    document.getElementById('langToggle').textContent = lang === 'en' ? 'SK' : 'EN';
+    const langToggle = document.getElementById('langToggle');
+    if (langToggle) langToggle.textContent = lang === 'en' ? 'SK' : 'EN';
 
-    // Update aria-labels
-    document.getElementById('redNum').setAttribute('aria-label', `${translations[lang].red} value`);
-    document.getElementById('greenNum').setAttribute('aria-label', `${translations[lang].green} value`);
-    document.getElementById('blueNum').setAttribute('aria-label', `${translations[lang].blue} value`);
+    // Update aria-labels if exist
+    const redNumEl = document.getElementById('redNum');
+    if (redNumEl) redNumEl.setAttribute('aria-label', `${translations[lang].red} value`);
+    const greenNumEl = document.getElementById('greenNum');
+    if (greenNumEl) greenNumEl.setAttribute('aria-label', `${translations[lang].green} value`);
+    const blueNumEl = document.getElementById('blueNum');
+    if (blueNumEl) blueNumEl.setAttribute('aria-label', `${translations[lang].blue} value`);
 }
 
 function componentToHex(c){
@@ -209,7 +218,7 @@ colorDisplay.addEventListener('click', function(){
 });
 
 // initialize
-updateColor();
+if (red) updateColor();
 
 // THEME TOGGLE: persist preference and apply
 const themeToggle = document.getElementById('themeToggle');
@@ -236,7 +245,8 @@ function loadTheme(){
 }
 
 loadTheme();
-// initialize display-mode buttons
+if (red) {
+    // initialize display-mode buttons
 if(modeButtons && modeButtons.length){
     const stored = getDisplayMode();
     modeButtons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === stored)));
@@ -393,3 +403,4 @@ askAiButton.addEventListener('click', async () => {
         askAiButton.disabled = false;
     }
 });
+}

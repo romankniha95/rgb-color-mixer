@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RGB Color Mixer</title>
+    <title>Color Tools</title>
     <link rel="icon" href="src/icons/favicon.svg">
     <link rel="stylesheet" href="src/css/styles.css">
     <style>
@@ -15,7 +15,7 @@
 <body>
     <header class="topbar">
         <div class="topbar-inner">
-            <h1>RGB Color Mixer</h1>
+            <h1>Color Tools</h1>
             <div class="top-controls">
                 <a href="color-names.html" class="lang-toggle">Color Names</a>
                 <button id="langToggle" class="lang-toggle" aria-label="Toggle language">EN</button>
@@ -35,55 +35,20 @@
     </header>
 
     <main class="content">
-        <div class="panel app-panel">
-            <div class="app-inner">
-                <div class="color-display" id="colorDisplay">#808080</div>
-                <div class="display-mode" role="tablist" aria-label="Display mode">
-                    <button class="mode-btn" data-mode="hex" aria-pressed="true">HEX</button>
-                    <button class="mode-btn" data-mode="rgb" aria-pressed="false">RGB</button>
-                </div>
-
-                <div class="sliders">
-                <div class="slider-row">
-                    <img class="icon" src="src/icons/red.svg" alt="R">
-                    <label for="red">Červená</label>
-                    <input class="slider red" type="range" id="red" min="0" max="255" value="128">
-                    <input class="num" type="text" id="redNum" value="128" aria-label="Červená hodnota">
-                </div>
-
-                <div class="slider-row">
-                    <img class="icon" src="src/icons/green.svg" alt="G">
-                    <label for="green">Zelená</label>
-                    <input class="slider green" type="range" id="green" min="0" max="255" value="128">
-                    <input class="num" type="text" id="greenNum" value="128" aria-label="Zelená hodnota">
-                </div>
-
-                <div class="slider-row">
-                    <img class="icon" src="src/icons/blue.svg" alt="B">
-                    <label for="blue">Modrá</label>
-                    <input class="slider blue" type="range" id="blue" min="0" max="255" value="128">
-                    <input class="num" type="text" id="blueNum" value="128" aria-label="Modrá hodnota">
-                </div>
-                </div>
-
-                <p class="hint">Posuň posuvníky alebo zadaj hodnotu číslom; kliknutím na plochu skopíruješ HEX.</p>
-            </div>
+        <div class="panel description-panel">
+            <p>Welcome to Color Tools. Here you can find various tools for working with colors.</p>
         </div>
 
-        <div class="panel blank-panel" id="blankPanel">
-            <div class="ai-assistant">
-                <h3>AI Assistant</h3>
-                <button id="askAiButton" class="ai-button">Ask AI about this color</button>
-                <div id="aiResponse" class="ai-response"></div>
-                <div id="aiLoading" class="ai-loading" style="display: none;">
-                    <div class="bar red-bar"></div>
-                    <div class="bar green-bar"></div>
-                    <div class="bar blue-bar"></div>
-                </div>
-            </div>
+        <div class="tools-grid">
+            <a href="rgb-color-mixer.html" class="tool-card">
+                <img src="src/icons/red.svg" alt="RGB Color Mixer" class="tool-icon">
+                <span>RGB Color Mixer</span>
+            </a>
+            <a href="color-names.html" class="tool-card">
+                <img src="src/icons/blue.svg" alt="Color Names" class="tool-icon">
+                <span>Color Names</span>
+            </a>
         </div>
-
-
     </main>
     <script src="src/js/main.js"></script>
 </body>
