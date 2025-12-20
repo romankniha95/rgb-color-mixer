@@ -261,37 +261,42 @@ function loadTheme(){
 }
 
 loadTheme();
+
+// Color mixer specific code
 if (red) {
     // initialize display-mode buttons
-if(modeButtons && modeButtons.length){
-    const stored = getDisplayMode();
-    modeButtons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === stored)));
-    modeButtons.forEach(b => b.addEventListener('click', ()=>{
-        const m = b.dataset.mode;
-        localStorage.setItem('rgb-display-mode', m);
-        modeButtons.forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-        updateColor();
-        // Update maxlength and inputmode for num inputs
-        const maxLen = m === 'hex' ? 2 : 3;
-        const inputMode = m === 'hex' ? 'text' : 'numeric';
-        redNum.setAttribute('maxlength', maxLen);
-        redNum.setAttribute('inputmode', inputMode);
-        greenNum.setAttribute('maxlength', maxLen);
-        greenNum.setAttribute('inputmode', inputMode);
-        blueNum.setAttribute('maxlength', maxLen);
-        blueNum.setAttribute('inputmode', inputMode);
-    }));
+    if(modeButtons && modeButtons.length){
+        const stored = getDisplayMode();
+        modeButtons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === stored)));
+        modeButtons.forEach(b => b.addEventListener('click', ()=>{
+            const m = b.dataset.mode;
+            localStorage.setItem('rgb-display-mode', m);
+            modeButtons.forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+            updateColor();
+            // Update maxlength and inputmode for num inputs
+            const maxLen = m === 'hex' ? 2 : 3;
+            const inputMode = m === 'hex' ? 'text' : 'numeric';
+            redNum.setAttribute('maxlength', maxLen);
+            redNum.setAttribute('inputmode', inputMode);
+            greenNum.setAttribute('maxlength', maxLen);
+            greenNum.setAttribute('inputmode', inputMode);
+            blueNum.setAttribute('maxlength', maxLen);
+            blueNum.setAttribute('inputmode', inputMode);
+        }));
+    }
+    // Set initial maxlength and inputmode
+    const initialMode = getDisplayMode();
+    const maxLen = initialMode === 'hex' ? 2 : 3;
+    const inputMode = initialMode === 'hex' ? 'text' : 'numeric';
+    redNum.setAttribute('maxlength', maxLen);
+    redNum.setAttribute('inputmode', inputMode);
+    greenNum.setAttribute('maxlength', maxLen);
+    greenNum.setAttribute('inputmode', inputMode);
+    blueNum.setAttribute('maxlength', maxLen);
+    blueNum.setAttribute('inputmode', inputMode);
 }
-// Set initial maxlength and inputmode
-const initialMode = getDisplayMode();
-const maxLen = initialMode === 'hex' ? 2 : 3;
-const inputMode = initialMode === 'hex' ? 'text' : 'numeric';
-redNum.setAttribute('maxlength', maxLen);
-redNum.setAttribute('inputmode', inputMode);
-greenNum.setAttribute('maxlength', maxLen);
-greenNum.setAttribute('inputmode', inputMode);
-blueNum.setAttribute('maxlength', maxLen);
-blueNum.setAttribute('inputmode', inputMode);
+
+// UI toggles for all pages (including landing page)
 if(themeToggle){
     themeToggle.addEventListener('click', ()=>{
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
