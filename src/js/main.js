@@ -456,26 +456,59 @@ if (interactiveSvg) {
         }
     }
 
-    function addCrack() {
-        const crack = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        const angle = (clickCount - 1) * 36; // distribute cracks evenly
-        const startRadius = 35;
-        const endRadius = 50;
+    function addCrack(clickX, clickY) {
+        // Create a jagged crack starting from click point
+        const crackGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        crackGroup.setAttribute('class', 'crack-group');
 
-        const startX = 200 + Math.cos(angle * Math.PI / 180) * startRadius;
-        const startY = 150 + Math.sin(angle * Math.PI / 180) * startRadius;
-        const endX = 200 + Math.cos(angle * Math.PI / 180) * endRadius;
-        const endY = 150 + Math.sin(angle * Math.PI / 180) * endRadius;
+        // Main crack path with multiple segments
+        let pathData = `M ${clickX} ${clickY}`;
 
-        crack.setAttribute('x1', startX);
-        crack.setAttribute('y1', startY);
-        crack.setAttribute('x2', endX);
-        crack.setAttribute('y2', endY);
-        crack.setAttribute('stroke', '#ffffff');
-        crack.setAttribute('stroke-width', '2');
-        crack.setAttribute('opacity', '0.8');
+        // Create branching crack segments
+        let currentX = clickX;
+        let currentY = clickY;
+        const segments = 8 + Math.random() * 4; // 8-12 segments
+        const baseAngle = Math.random() * 360; // Random starting direction
 
-        cracksGroup.appendChild(crack);
+        for (let i = 0; i < segments; i++) {
+            const segmentLength = 15 + Math.random() * 20;
+            const angleVariation = (Math.random() - 0.5) * 60; // ±30 degrees variation
+            const angle = baseAngle + angleVariation + (i * 5); // Slight curve
+
+            const nextX = currentX + Math.cos(angle * Math.PI / 180) * segmentLength;
+            const nextY = currentY + Math.sin(angle * Math.PI / 180) * segmentLength;
+
+            // Add some jaggedness
+            const midX = (currentX + nextX) / 2 + (Math.random() - 0.5) * 6;
+            const midY = (currentY + nextY) / 2 + (Math.random() - 0.5) * 6;
+
+            pathData += ` L ${midX} ${midY} L ${nextX} ${nextY}`;
+
+            currentX = nextX;
+            currentY = nextY;
+
+            // Sometimes create a branch
+            if (Math.random() < 0.3 && i > 2) {
+                const branchLength = segmentLength * 0.6;
+                const branchAngle = angle + 45 + (Math.random() - 0.5) * 30;
+                const branchX = midX + Math.cos(branchAngle * Math.PI / 180) * branchLength;
+                const branchY = midY + Math.sin(branchAngle * Math.PI / 180) * branchLength;
+
+                pathData += ` M ${midX} ${midY} L ${branchX} ${branchY}`;
+            }
+        }
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', pathData);
+        path.setAttribute('stroke', '#ffffff');
+        path.setAttribute('stroke-width', '2.5');
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('stroke-linejoin', 'round');
+        path.setAttribute('fill', 'none');
+        path.setAttribute('opacity', '0.9');
+
+        crackGroup.appendChild(path);
+        cracksGroup.appendChild(crackGroup);
         cracksGroup.style.display = 'block';
     }
 
@@ -535,12 +568,16 @@ if (interactiveSvg) {
         }, 2000);
     }
 
-    function handleClick() {
+    function handleClick(e) {
+        const rect = interactiveSvg.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
+
         clickCount++;
 
         if (clickCount <= 9) {
-            // Add crack
-            addCrack();
+            // Add crack at click position
+            addCrack(clickX, clickY);
         } else if (clickCount === 10) {
             // Explode
             explodeColors();
