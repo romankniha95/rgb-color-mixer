@@ -552,11 +552,30 @@ if (interactiveSvg) {
         path.setAttribute('stroke-linecap', 'round');
         path.setAttribute('stroke-linejoin', 'round');
         path.setAttribute('fill', 'none');
-        path.setAttribute('opacity', '0.85');
+        path.setAttribute('opacity', '0');
+
+        // Calculate path length for animation
+        const pathLength = path.getTotalLength();
+        path.setAttribute('stroke-dasharray', pathLength);
+        path.setAttribute('stroke-dashoffset', pathLength);
 
         crackGroup.appendChild(path);
         cracksGroup.appendChild(crackGroup);
         cracksGroup.style.display = 'block';
+
+        // Animate crack appearance
+        let progress = 0;
+        const animateCrack = () => {
+            progress += 0.03; // Speed of crack appearance
+            const offset = pathLength * (1 - progress);
+            path.setAttribute('stroke-dashoffset', offset);
+            path.setAttribute('opacity', progress * 0.85);
+
+            if (progress < 1) {
+                requestAnimationFrame(animateCrack);
+            }
+        };
+        animateCrack();
     }
 
     function explodeColors() {
