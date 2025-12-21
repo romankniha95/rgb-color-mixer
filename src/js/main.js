@@ -25,7 +25,7 @@ const translations = {
         aiError: 'An error occurred while communicating with AI. Please try again later.',
         aiErrorShort: 'Sorry, AI did not respond correctly.',
         landingTitle: 'RGB Values, Mixing, Color Names and Visual Harmony',
-        description: 'Discover the complex world of digital colors – from precise RGB values and mathematical mixing to creative combinations, gradients and naming of shades. Create color palettes, experiment with mixing and understand how colors work in design and code. Whether you\'re creating a website, graphics or just exploring colors out of curiosity, here you\'ll find tools and inspiration in one place.',
+        description: '<span class="intro-text">Discover the complex world of digital colors</span> – from precise RGB values and mathematical mixing to creative combinations, gradients and naming of shades.<br><br><span class="secondary-text">Create color palettes, experiment with mixing and understand how colors work in design and code. Whether you\'re creating a website, graphics or just exploring colors out of curiosity, here you\'ll find tools and inspiration in one place.</span>',
         allTools: 'All Tools',
         comingSoon: 'Coming Soon'
     },
@@ -90,7 +90,7 @@ function updateLanguage() {
     const landingTitle = document.querySelector('.description-panel h2');
     if (landingTitle) landingTitle.textContent = translations[lang].landingTitle;
     const description = document.querySelector('.description-panel p');
-    if (description) description.textContent = translations[lang].description;
+    if (description) description.innerHTML = translations[lang].description;
     const h2 = document.querySelector('h2');
     if (h2) h2.textContent = translations[lang].allTools;
     const placeholders = document.querySelectorAll('.tool-placeholder span');

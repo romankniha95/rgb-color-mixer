@@ -48,7 +48,7 @@ body{
 .topbar{width:100%;background:var(--topbar-bg);border-bottom:2px solid var(--topbar-border);backdrop-filter: blur(6px);position:relative}
 .topbar::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:80%;height:1px;background:linear-gradient(90deg, transparent, var(--accent), transparent);opacity:0.5}
 .topbar-inner{max-width:920px;margin:0 auto;padding:20px 36px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.topbar h1{margin:0;font-size:36px;color:var(--text);font-weight:700;display:flex;align-items:center;gap:8px;transition:transform 0.3s ease, filter 0.3s ease}
+.topbar h1{margin:0;font-size:36px;color:var(--text);font-weight:700;display:flex;align-items:center;gap:8px;margin-left:-8px;transition:transform 0.3s ease, filter 0.3s ease}
 .topbar h1:hover{transform:rotate(-5deg);filter:drop-shadow(0 0 8px var(--accent))}
 .logo-icon{width:36px;height:36px}
 .theme-toggle{appearance:none;border:0;background:transparent;color:var(--text);padding:8px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
@@ -62,8 +62,11 @@ body{
 .content{max-width:1400px;margin:18px auto;display:flex;flex-direction:column;align-items:center;gap:18px;padding:0 14px}
 .panel{width:100%;background:var(--surface);border-radius:12px;padding:18px;box-shadow:var(--panel-shadow)}
 .description-panel{padding:36px}
-.description-panel h2{font-size:28px;margin-bottom:12px}
-.description-panel p{font-size:16px;line-height:1.6}
+.description-panel .hero-image{max-width:100%;height:auto;margin-bottom:24px;border-radius:12px}
+.description-panel h2{font-size:36px;margin-bottom:16px;font-weight:300;letter-spacing:0.5px}
+.description-panel p{font-size:14px;line-height:1.7;margin-bottom:0}
+.intro-text{font-size:20px !important;font-weight:500 !important;margin-bottom:8px !important;display:block}
+.secondary-text{font-size:14px !important;font-weight:400 !important}
 .app-panel{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px}
 .blank-panel{min-height:120px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
 
