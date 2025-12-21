@@ -460,23 +460,37 @@ if (interactiveSvg) {
     function handleHover() {
         if (!isHovered) {
             isHovered = true;
-            colorCircle.setAttribute('transform', 'scale(1.1)');
-            colorCircle.style.filter = 'drop-shadow(0 0 10px rgba(255, 68, 68, 0.5))';
+            colorCircle.style.transition = 'transform 0.3s ease, filter 0.3s ease';
+            colorCircle.setAttribute('transform', 'scale(1.05)');
+            colorCircle.style.filter = 'drop-shadow(0 0 8px rgba(255, 68, 68, 0.3)) brightness(1.1)';
         }
     }
 
     function handleHoverEnd() {
         if (isHovered) {
             isHovered = false;
+            colorCircle.style.transition = 'transform 0.3s ease, filter 0.3s ease';
             colorCircle.setAttribute('transform', 'scale(1)');
             colorCircle.style.filter = '';
         }
     }
 
     function addCrack(clickX, clickY) {
-        // Create a jagged crack starting from click point
+        // Create a jagged crack starting from click point, constrained to circle
         const crackGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         crackGroup.setAttribute('class', 'crack-group');
+
+        // Circle center and radius
+        const centerX = 200;
+        const centerY = 150;
+        const maxRadius = 80; // Slightly less than circle radius
+
+        // Ensure click point is within circle bounds
+        const distanceFromCenter = Math.sqrt((clickX - centerX) ** 2 + (clickY - centerY) ** 2);
+        if (distanceFromCenter > maxRadius) {
+            // If click is outside circle, don't create crack
+            return;
+        }
 
         // Main crack path with multiple segments
         let pathData = `M ${clickX} ${clickY}`;
@@ -484,45 +498,61 @@ if (interactiveSvg) {
         // Create branching crack segments
         let currentX = clickX;
         let currentY = clickY;
-        const segments = 8 + Math.random() * 4; // 8-12 segments
+        const segments = 5 + Math.random() * 3; // 5-8 segments (shorter)
         const baseAngle = Math.random() * 360; // Random starting direction
 
         for (let i = 0; i < segments; i++) {
-            const segmentLength = 15 + Math.random() * 20;
-            const angleVariation = (Math.random() - 0.5) * 60; // ±30 degrees variation
-            const angle = baseAngle + angleVariation + (i * 5); // Slight curve
+            const segmentLength = 8 + Math.random() * 12; // Shorter segments
+            const angleVariation = (Math.random() - 0.5) * 45; // ±22.5 degrees variation
+            const angle = baseAngle + angleVariation + (i * 3); // Slight curve
 
             const nextX = currentX + Math.cos(angle * Math.PI / 180) * segmentLength;
             const nextY = currentY + Math.sin(angle * Math.PI / 180) * segmentLength;
 
-            // Add some jaggedness
-            const midX = (currentX + nextX) / 2 + (Math.random() - 0.5) * 6;
-            const midY = (currentY + nextY) / 2 + (Math.random() - 0.5) * 6;
+            // Check if next point is within circle bounds
+            const nextDistance = Math.sqrt((nextX - centerX) ** 2 + (nextY - centerY) ** 2);
+            if (nextDistance > maxRadius) {
+                // Stop the crack if it would go outside the circle
+                break;
+            }
 
-            pathData += ` L ${midX} ${midY} L ${nextX} ${nextY}`;
+            // Add some jaggedness
+            const midX = (currentX + nextX) / 2 + (Math.random() - 0.5) * 4;
+            const midY = (currentY + nextY) / 2 + (Math.random() - 0.5) * 4;
+
+            // Check mid point too
+            const midDistance = Math.sqrt((midX - centerX) ** 2 + (midY - centerY) ** 2);
+            if (midDistance > maxRadius) {
+                pathData += ` L ${nextX} ${nextY}`;
+            } else {
+                pathData += ` L ${midX} ${midY} L ${nextX} ${nextY}`;
+            }
 
             currentX = nextX;
             currentY = nextY;
 
-            // Sometimes create a branch
-            if (Math.random() < 0.3 && i > 2) {
-                const branchLength = segmentLength * 0.6;
-                const branchAngle = angle + 45 + (Math.random() - 0.5) * 30;
+            // Sometimes create a branch (less frequent, shorter)
+            if (Math.random() < 0.2 && i > 1) {
+                const branchLength = segmentLength * 0.4;
+                const branchAngle = angle + 60 + (Math.random() - 0.5) * 20;
                 const branchX = midX + Math.cos(branchAngle * Math.PI / 180) * branchLength;
                 const branchY = midY + Math.sin(branchAngle * Math.PI / 180) * branchLength;
 
-                pathData += ` M ${midX} ${midY} L ${branchX} ${branchY}`;
+                const branchDistance = Math.sqrt((branchX - centerX) ** 2 + (branchY - centerY) ** 2);
+                if (branchDistance <= maxRadius) {
+                    pathData += ` M ${midX} ${midY} L ${branchX} ${branchY}`;
+                }
             }
         }
 
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', pathData);
         path.setAttribute('stroke', '#ffffff');
-        path.setAttribute('stroke-width', '2.5');
+        path.setAttribute('stroke-width', '2');
         path.setAttribute('stroke-linecap', 'round');
         path.setAttribute('stroke-linejoin', 'round');
         path.setAttribute('fill', 'none');
-        path.setAttribute('opacity', '0.9');
+        path.setAttribute('opacity', '0.85');
 
         crackGroup.appendChild(path);
         cracksGroup.appendChild(crackGroup);
