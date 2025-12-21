@@ -579,6 +579,10 @@ if (interactiveSvg) {
     }
 
     function explodeColors() {
+        // Clear all cracks immediately when exploding
+        cracksGroup.innerHTML = '';
+        cracksGroup.style.display = 'none';
+
         // Create multiple colorful particles
         for (let i = 0; i < 20; i++) {
             const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -621,9 +625,8 @@ if (interactiveSvg) {
 
         // Reset after explosion
         setTimeout(() => {
-            // Clear all cracks and particles
+            // Clear remaining particles and show circle
             cracksGroup.innerHTML = '';
-            cracksGroup.style.display = 'none';
             colorCircle.style.display = 'block';
 
             // Generate new color
