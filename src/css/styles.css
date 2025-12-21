@@ -34,10 +34,10 @@ body{
     background:
         linear-gradient(var(--grid-color) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
-        linear-gradient(var(--grid-color-subtle) 10px, transparent 10px),
-        linear-gradient(90deg, var(--grid-color-subtle) 10px, transparent 10px),
+        linear-gradient(var(--grid-color-subtle) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color-subtle) 1px, transparent 1px),
         var(--bg-page);
-    background-size: 200px 200px, 200px 200px, 40px 40px, 40px 40px;
+    background-size: 200px 200px, 200px 200px, 20px 20px, 20px 20px;
     color:var(--text);
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
@@ -48,7 +48,7 @@ body{
 .topbar::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:80%;height:1px;background:linear-gradient(90deg, transparent, var(--accent), transparent);opacity:0.5}
 .topbar-inner{max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .topbar h1{margin:0;font-size:20px;color:var(--text);font-weight:700;display:flex;align-items:center;gap:8px;transition:transform 0.3s ease, filter 0.3s ease}
-.topbar h1:hover{transform:rotate(5deg);filter:drop-shadow(0 0 8px var(--accent))}
+.topbar h1:hover{transform:rotate(-5deg);filter:drop-shadow(0 0 8px var(--accent))}
 .logo-icon{width:24px;height:24px}
 .theme-toggle{appearance:none;border:0;background:transparent;color:var(--text);padding:8px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
 .theme-toggle svg{width:18px;height:18px;transition:transform .18s ease}
