@@ -565,7 +565,6 @@ if (interactiveSvg) {
     function explodeColors() {
         // Clear all cracks immediately when exploding
         cracksGroup.innerHTML = '';
-        cracksGroup.style.display = 'none';
 
         // Create multiple colorful particles
         for (let i = 0; i < 20; i++) {
@@ -580,7 +579,8 @@ if (interactiveSvg) {
             particle.setAttribute('fill', generateRandomColor());
             particle.setAttribute('opacity', '1');
 
-            cracksGroup.appendChild(particle);
+            // Add particles directly to SVG root for visibility
+            interactiveSvg.appendChild(particle);
 
             // Animate particle flying out
             let progress = 0;
@@ -598,7 +598,9 @@ if (interactiveSvg) {
                 if (progress < 1) {
                     requestAnimationFrame(animate);
                 } else {
-                    cracksGroup.removeChild(particle);
+                    if (particle.parentNode) {
+                        interactiveSvg.removeChild(particle);
+                    }
                 }
             };
             animate();
@@ -609,8 +611,6 @@ if (interactiveSvg) {
 
         // Reset after explosion
         setTimeout(() => {
-            // Clear remaining particles and show circle
-            cracksGroup.innerHTML = '';
             colorCircle.style.display = 'block';
 
             // Generate new color
