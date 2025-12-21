@@ -529,10 +529,36 @@ if (interactiveSvg) {
             }
         }
 
+        // Create crack with gradient for more realistic appearance
+        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        const gradientId = `crackGradient${Date.now()}${Math.random()}`;
+        const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+        gradient.setAttribute('id', gradientId);
+        gradient.setAttribute('x1', '0%');
+        gradient.setAttribute('y1', '0%');
+        gradient.setAttribute('x2', '100%');
+        gradient.setAttribute('y2', '0%');
+
+        const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop1.setAttribute('offset', '0%');
+        stop1.setAttribute('style', 'stop-color:#666666;stop-opacity:0.8');
+        const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop2.setAttribute('offset', '50%');
+        stop2.setAttribute('style', 'stop-color:#333333;stop-opacity:0.9');
+        const stop3 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop3.setAttribute('offset', '100%');
+        stop3.setAttribute('style', 'stop-color:#666666;stop-opacity:0.8');
+
+        gradient.appendChild(stop1);
+        gradient.appendChild(stop2);
+        gradient.appendChild(stop3);
+        defs.appendChild(gradient);
+        crackGroup.appendChild(defs);
+
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', pathData);
-        path.setAttribute('stroke', '#ffffff');
-        path.setAttribute('stroke-width', '2');
+        path.setAttribute('stroke', `url(#${gradientId})`);
+        path.setAttribute('stroke-width', '2.5');
         path.setAttribute('stroke-linecap', 'round');
         path.setAttribute('stroke-linejoin', 'round');
         path.setAttribute('fill', 'none');
@@ -658,10 +684,10 @@ if (interactiveSvg) {
 
         clickCount++;
 
-        if (clickCount <= 9) {
+        if (clickCount <= 14) {
             // Add crack at click position
             addCrack(clickX, clickY);
-        } else if (clickCount === 10) {
+        } else if (clickCount === 15) {
             // Explode
             setTimeout(explodeColors, 300); // Delay explosion to let shake finish
         }
