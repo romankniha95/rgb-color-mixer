@@ -8,8 +8,8 @@
     --panel-shadow: 0 8px 20px rgba(16,32,58,0.04);
     --topbar-bg: linear-gradient(90deg,#ffffff,#f8fafc);
     --topbar-border: #edf2f7;
-    --grid-color: rgba(0,0,0,0.02);
-    --grid-color-subtle: rgba(0,0,0,0.005);
+    --grid-color: rgba(0,0,0,0.04);
+    --grid-color-subtle: rgba(0,0,0,0.01);
 }
 
 [data-theme="dark"]{
@@ -21,8 +21,8 @@
     --panel-shadow: 0 10px 30px rgba(2,6,23,0.6);
     --topbar-bg: linear-gradient(90deg,#071226,#0b1524);
     --topbar-border: rgba(255,255,255,0.04);
-    --grid-color: rgba(255,255,255,0.03);
-    --grid-color-subtle: rgba(255,255,255,0.01);
+    --grid-color: rgba(255,255,255,0.06);
+    --grid-color-subtle: rgba(255,255,255,0.02);
 }
 
 *{box-sizing:border-box}
@@ -37,7 +37,7 @@ body{
         linear-gradient(var(--grid-color-subtle) 10px, transparent 10px),
         linear-gradient(90deg, var(--grid-color-subtle) 10px, transparent 10px),
         var(--bg-page);
-    background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+    background-size: 200px 200px, 200px 200px, 40px 40px, 40px 40px;
     color:var(--text);
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
@@ -46,7 +46,7 @@ body{
 /* Top bar */
 .topbar{width:100%;background:var(--topbar-bg);border-bottom:2px solid var(--topbar-border);backdrop-filter: blur(6px);position:relative}
 .topbar::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:80%;height:1px;background:linear-gradient(90deg, transparent, var(--accent), transparent);opacity:0.5}
-.topbar-inner{max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:flex-start;gap:12px}
+.topbar-inner{max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .topbar h1{margin:0;font-size:20px;color:var(--text);font-weight:700;display:flex;align-items:center;gap:8px;transition:transform 0.3s ease, filter 0.3s ease}
 .topbar h1:hover{transform:rotate(5deg);filter:drop-shadow(0 0 8px var(--accent))}
 .logo-icon{width:24px;height:24px}
