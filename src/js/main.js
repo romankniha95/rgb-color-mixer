@@ -25,7 +25,7 @@ const translations = {
         aiError: 'An error occurred while communicating with AI. Please try again later.',
         aiErrorShort: 'Sorry, AI did not respond correctly.',
         landingTitle: 'RGB Values, Mixing, Color Names and Visual Harmony',
-        description: '<span class="intro-text">Discover the complex world of digital colors</span> <span class="no-wrap">– from precise RGB values and mathematical mixing to creative combinations, gradients and naming of shades.</span><br><br><span class="secondary-text">Create color palettes, experiment with mixing and understand how colors work in design and code.<br>Whether you\'re creating a website, graphics or just exploring colors out of curiosity,<br>here you\'ll find tools and inspiration in one place.</span>',
+        description: '<span class="intro-text">Discover the complex world of digital colors</span> <span class="no-wrap">– from precise RGB values and mathematical mixing to creative combinations, gradients and naming of shades.</span><br><br><span class="secondary-text">Create color palettes, experiment with mixing and understand how colors work in design and code.</span><br><span class="secondary-text">Whether you\'re creating a website, graphics or just exploring colors out of curiosity,</span><br><span class="secondary-text">here you\'ll find tools and inspiration in one place.</span>',
         allTools: 'All Tools',
         comingSoon: 'Coming Soon'
     },
