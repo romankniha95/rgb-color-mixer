@@ -431,45 +431,36 @@ if (red) {
 // Initialize language
 updateLanguage();
 
-// Interactive SVG color effect
+// Interactive SVG spilling effect
 const interactiveSvg = document.getElementById('interactive-svg');
 if (interactiveSvg) {
     const colorCircle = document.getElementById('color-circle');
-    let lastX = 200, lastY = 150, lastTime = Date.now();
+    let isSpilling = false;
 
-    interactiveSvg.addEventListener('mousemove', (e) => {
-        const rect = interactiveSvg.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+    function startSpilling() {
+        if (isSpilling) return;
+        isSpilling = true;
 
-        const currentTime = Date.now();
-        const timeDiff = currentTime - lastTime;
-        const distance = Math.sqrt((x - lastX) ** 2 + (y - lastY) ** 2);
-        const speed = distance / (timeDiff || 1);
+        let radius = 30;
+        let opacity = 0.8;
+        const animate = () => {
+            radius += 3;
+            opacity -= 0.02;
 
-        // Calculate RGB values
-        const red = Math.round((x / rect.width) * 255);
-        const blue = Math.round((y / rect.height) * 255);
-        const green = Math.min(255, Math.round(speed * 20));
+            colorCircle.setAttribute('r', radius);
+            colorCircle.setAttribute('opacity', opacity);
 
-        const color = `rgb(${red}, ${green}, ${blue})`;
+            if (opacity > 0.1) {
+                requestAnimationFrame(animate);
+            } else {
+                // Reset to original state
+                colorCircle.setAttribute('r', '30');
+                colorCircle.setAttribute('opacity', '0.8');
+                isSpilling = false;
+            }
+        };
+        animate();
+    }
 
-        // Update circle position and color
-        colorCircle.setAttribute('cx', x);
-        colorCircle.setAttribute('cy', y);
-        colorCircle.setAttribute('fill', color);
-
-        lastX = x;
-        lastY = y;
-        lastTime = currentTime;
-    });
-
-    // Reset to center when mouse leaves
-    interactiveSvg.addEventListener('mouseleave', () => {
-        colorCircle.setAttribute('cx', '200');
-        colorCircle.setAttribute('cy', '150');
-        colorCircle.setAttribute('fill', '#888');
-        lastX = 200;
-        lastY = 150;
-    });
+    interactiveSvg.addEventListener('mouseenter', startSpilling);
 }
