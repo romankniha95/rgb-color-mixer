@@ -441,20 +441,26 @@ if (interactiveSvg) {
         if (isSpilling) return;
         isSpilling = true;
 
-        let radius = 30;
+        // Create spilling effect by elongating downwards
+        let verticalScale = 1;
         let opacity = 0.8;
-        const animate = () => {
-            radius += 3;
-            opacity -= 0.02;
+        let cy = 150; // original center y
 
-            colorCircle.setAttribute('r', radius);
+        const animate = () => {
+            verticalScale += 0.1;
+            opacity -= 0.015;
+            cy += 2; // move center downwards
+
+            // Create ellipse effect by modifying the circle's transform
+            const transform = `scale(1, ${verticalScale}) translate(0, ${(cy - 150) / verticalScale})`;
+            colorCircle.setAttribute('transform', transform);
             colorCircle.setAttribute('opacity', opacity);
 
-            if (opacity > 0.1) {
+            if (opacity > 0.05) {
                 requestAnimationFrame(animate);
             } else {
                 // Reset to original state
-                colorCircle.setAttribute('r', '30');
+                colorCircle.setAttribute('transform', 'scale(1, 1) translate(0, 0)');
                 colorCircle.setAttribute('opacity', '0.8');
                 isSpilling = false;
             }
