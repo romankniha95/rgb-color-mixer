@@ -457,23 +457,7 @@ if (interactiveSvg) {
         }
     }
 
-    function handleHover() {
-        if (!isHovered) {
-            isHovered = true;
-            colorCircle.style.transition = 'transform 0.3s ease, filter 0.3s ease';
-            colorCircle.setAttribute('transform', 'scale(1.05)');
-            colorCircle.style.filter = 'drop-shadow(0 0 8px rgba(255, 68, 68, 0.3)) brightness(1.1)';
-        }
-    }
 
-    function handleHoverEnd() {
-        if (isHovered) {
-            isHovered = false;
-            colorCircle.style.transition = 'transform 0.3s ease, filter 0.3s ease';
-            colorCircle.setAttribute('transform', 'scale(1)');
-            colorCircle.style.filter = '';
-        }
-    }
 
     function addCrack(clickX, clickY) {
         // Create a jagged crack starting from click point, constrained to circle
@@ -637,10 +621,30 @@ if (interactiveSvg) {
         }, 2000);
     }
 
+    function shakeCircle() {
+        let shakeCount = 0;
+        const shake = () => {
+            shakeCount++;
+            const offsetX = (Math.random() - 0.5) * 8;
+            const offsetY = (Math.random() - 0.5) * 8;
+            colorCircle.setAttribute('transform', `translate(${offsetX}, ${offsetY})`);
+
+            if (shakeCount < 6) {
+                setTimeout(shake, 50);
+            } else {
+                colorCircle.setAttribute('transform', 'translate(0, 0)');
+            }
+        };
+        shake();
+    }
+
     function handleClick(e) {
         const rect = interactiveSvg.getBoundingClientRect();
         const clickX = e.clientX - rect.left;
         const clickY = e.clientY - rect.top;
+
+        // Shake effect on every click
+        shakeCircle();
 
         clickCount++;
 
@@ -649,7 +653,7 @@ if (interactiveSvg) {
             addCrack(clickX, clickY);
         } else if (clickCount === 10) {
             // Explode
-            explodeColors();
+            setTimeout(explodeColors, 300); // Delay explosion to let shake finish
         }
     }
 
@@ -657,7 +661,5 @@ if (interactiveSvg) {
     updateCircleColor();
 
     // Add event listeners to the circle only
-    colorCircle.addEventListener('mouseenter', handleHover);
-    colorCircle.addEventListener('mouseleave', handleHoverEnd);
     colorCircle.addEventListener('click', handleClick);
 }
