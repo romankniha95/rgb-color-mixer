@@ -629,10 +629,20 @@ if (interactiveSvg) {
             const offsetY = (Math.random() - 0.5) * 8;
             colorCircle.setAttribute('transform', `translate(${offsetX}, ${offsetY})`);
 
+            // Also shake all cracks
+            const crackGroups = cracksGroup.querySelectorAll('.crack-group');
+            crackGroups.forEach(group => {
+                group.setAttribute('transform', `translate(${offsetX}, ${offsetY})`);
+            });
+
             if (shakeCount < 6) {
                 setTimeout(shake, 50);
             } else {
                 colorCircle.setAttribute('transform', 'translate(0, 0)');
+                // Reset crack positions too
+                crackGroups.forEach(group => {
+                    group.setAttribute('transform', 'translate(0, 0)');
+                });
             }
         };
         shake();
