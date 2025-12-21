@@ -438,6 +438,7 @@ if (interactiveSvg) {
     const cracksGroup = document.getElementById('cracks');
     let clickCount = 0;
     let currentColor = generateRandomColor();
+    let isHovered = false;
 
     function generateRandomColor() {
         const r = Math.floor(Math.random() * 256);
@@ -453,6 +454,22 @@ if (interactiveSvg) {
             stops[1].style.stopColor = currentColor; // middle stop
             const darkerColor = currentColor.replace('rgb(', 'rgba(').replace(')', ', 0.7)');
             stops[2].style.stopColor = darkerColor; // bottom stop
+        }
+    }
+
+    function handleHover() {
+        if (!isHovered) {
+            isHovered = true;
+            colorCircle.setAttribute('transform', 'scale(1.1)');
+            colorCircle.style.filter = 'drop-shadow(0 0 10px rgba(255, 68, 68, 0.5))';
+        }
+    }
+
+    function handleHoverEnd() {
+        if (isHovered) {
+            isHovered = false;
+            colorCircle.setAttribute('transform', 'scale(1)');
+            colorCircle.style.filter = '';
         }
     }
 
@@ -587,5 +604,8 @@ if (interactiveSvg) {
     // Initialize with random color
     updateCircleColor();
 
-    interactiveSvg.addEventListener('click', handleClick);
+    // Add event listeners to the circle only
+    colorCircle.addEventListener('mouseenter', handleHover);
+    colorCircle.addEventListener('mouseleave', handleHoverEnd);
+    colorCircle.addEventListener('click', handleClick);
 }
