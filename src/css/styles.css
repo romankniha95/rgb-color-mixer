@@ -47,7 +47,7 @@ body{
 /* Top bar */
 .topbar{width:100%;background:var(--topbar-bg);border-bottom:2px solid var(--topbar-border);backdrop-filter: blur(6px);position:relative}
 .topbar::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:80%;height:1px;background:linear-gradient(90deg, transparent, var(--accent), transparent);opacity:0.5}
-.topbar-inner{max-width:920px;margin:0 auto;padding:20px 36px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.topbar-inner{max-width:1400px;margin:0 auto;padding:20px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .topbar h1{margin:0;font-size:36px;color:var(--text);font-weight:700;display:flex;align-items:center;gap:8px;transition:transform 0.3s ease, filter 0.3s ease}
 .topbar h1:hover{transform:rotate(-5deg);filter:drop-shadow(0 0 8px var(--accent))}
 .logo-icon{width:36px;height:36px}
