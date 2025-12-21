@@ -431,42 +431,124 @@ if (red) {
 // Initialize language
 updateLanguage();
 
-// Interactive SVG spilling effect
+// Interactive SVG egg cracking effect
 const interactiveSvg = document.getElementById('interactive-svg');
 if (interactiveSvg) {
     const colorCircle = document.getElementById('color-circle');
-    let isSpilling = false;
+    const cracksGroup = document.getElementById('cracks');
+    let clickCount = 0;
+    let currentColor = generateRandomColor();
 
-    function startSpilling() {
-        if (isSpilling) return;
-        isSpilling = true;
-
-        // Create spilling effect by elongating downwards
-        let verticalScale = 1;
-        let opacity = 0.8;
-        let cy = 150; // original center y
-
-        const animate = () => {
-            verticalScale += 0.1;
-            opacity -= 0.015;
-            cy += 2; // move center downwards
-
-            // Create ellipse effect by modifying the circle's transform
-            const transform = `scale(1, ${verticalScale}) translate(0, ${(cy - 150) / verticalScale})`;
-            colorCircle.setAttribute('transform', transform);
-            colorCircle.setAttribute('opacity', opacity);
-
-            if (opacity > 0.05) {
-                requestAnimationFrame(animate);
-            } else {
-                // Reset to original state
-                colorCircle.setAttribute('transform', 'scale(1, 1) translate(0, 0)');
-                colorCircle.setAttribute('opacity', '0.8');
-                isSpilling = false;
-            }
-        };
-        animate();
+    function generateRandomColor() {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return `rgb(${r}, ${g}, ${b})`;
     }
 
-    interactiveSvg.addEventListener('mouseenter', startSpilling);
+    function updateCircleColor() {
+        const gradient = document.getElementById('circleGradient');
+        if (gradient) {
+            const stops = gradient.querySelectorAll('stop');
+            stops[1].style.stopColor = currentColor; // middle stop
+            const darkerColor = currentColor.replace('rgb(', 'rgba(').replace(')', ', 0.7)');
+            stops[2].style.stopColor = darkerColor; // bottom stop
+        }
+    }
+
+    function addCrack() {
+        const crack = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        const angle = (clickCount - 1) * 36; // distribute cracks evenly
+        const startRadius = 35;
+        const endRadius = 50;
+
+        const startX = 200 + Math.cos(angle * Math.PI / 180) * startRadius;
+        const startY = 150 + Math.sin(angle * Math.PI / 180) * startRadius;
+        const endX = 200 + Math.cos(angle * Math.PI / 180) * endRadius;
+        const endY = 150 + Math.sin(angle * Math.PI / 180) * endRadius;
+
+        crack.setAttribute('x1', startX);
+        crack.setAttribute('y1', startY);
+        crack.setAttribute('x2', endX);
+        crack.setAttribute('y2', endY);
+        crack.setAttribute('stroke', '#ffffff');
+        crack.setAttribute('stroke-width', '2');
+        crack.setAttribute('opacity', '0.8');
+
+        cracksGroup.appendChild(crack);
+        cracksGroup.style.display = 'block';
+    }
+
+    function explodeColors() {
+        // Create multiple colorful particles
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            const angle = (i / 20) * 360;
+            const distance = Math.random() * 100 + 50;
+            const size = Math.random() * 8 + 4;
+
+            particle.setAttribute('cx', 200);
+            particle.setAttribute('cy', 150);
+            particle.setAttribute('r', size);
+            particle.setAttribute('fill', generateRandomColor());
+            particle.setAttribute('opacity', '1');
+
+            cracksGroup.appendChild(particle);
+
+            // Animate particle flying out
+            let progress = 0;
+            const animate = () => {
+                progress += 0.02;
+                const currentDistance = distance * progress;
+                const x = 200 + Math.cos(angle * Math.PI / 180) * currentDistance;
+                const y = 150 + Math.sin(angle * Math.PI / 180) * currentDistance;
+                const opacity = Math.max(0, 1 - progress);
+
+                particle.setAttribute('cx', x);
+                particle.setAttribute('cy', y);
+                particle.setAttribute('opacity', opacity);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    cracksGroup.removeChild(particle);
+                }
+            };
+            animate();
+        }
+
+        // Hide original circle during explosion
+        colorCircle.style.display = 'none';
+
+        // Reset after explosion
+        setTimeout(() => {
+            // Clear all cracks and particles
+            cracksGroup.innerHTML = '';
+            cracksGroup.style.display = 'none';
+            colorCircle.style.display = 'block';
+
+            // Generate new color
+            currentColor = generateRandomColor();
+            updateCircleColor();
+
+            clickCount = 0;
+        }, 2000);
+    }
+
+    function handleClick() {
+        clickCount++;
+
+        if (clickCount <= 9) {
+            // Add crack
+            addCrack();
+        } else if (clickCount === 10) {
+            // Explode
+            explodeColors();
+        }
+    }
+
+    // Initialize with random color
+    updateCircleColor();
+
+    interactiveSvg.addEventListener('click', handleClick);
 }
