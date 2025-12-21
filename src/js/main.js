@@ -24,7 +24,8 @@ const translations = {
         copied: 'Copied!',
         aiError: 'An error occurred while communicating with AI. Please try again later.',
         aiErrorShort: 'Sorry, AI did not respond correctly.',
-        description: 'Welcome to Color Tools. Here you can find various tools for working with colors.',
+        landingTitle: 'RGB Values, Mixing, Color Names and Visual Harmony',
+        description: 'Discover the complex world of digital colors – from precise RGB values and mathematical mixing to creative combinations, gradients and naming of shades. Create color palettes, experiment with mixing and understand how colors work in design and code. Whether you\'re creating a website, graphics or just exploring colors out of curiosity, here you\'ll find tools and inspiration in one place.',
         allTools: 'All Tools',
         comingSoon: 'Coming Soon'
     },
@@ -39,7 +40,8 @@ const translations = {
         copied: 'Skopírované!',
         aiError: 'Vyskytla sa chyba pri komunikácii s AI. Skúste to prosím znova neskôr.',
         aiErrorShort: 'Ospravedlňujeme sa, AI neodpovedala správne.',
-        description: 'Vitajte v Color Tools. Tu nájdete rôzne nástroje na prácu s farbami.',
+        landingTitle: 'RGB hodnoty, miešanie, názvy farieb a vizuálna harmónia',
+        description: 'Objav komplexný svet digitálnych farieb – od presných RGB hodnôt a matematického miešania až po kreatívne kombinácie, prechody a pomenovania odtieňov. Vytváraj farebné palety, experimentuj s mixovaním a pochop, ako farby fungujú v dizajne aj v kóde. Či tvoríš web, grafiku alebo len objavuješ farby zo zvedavosti, tu nájdeš nástroje aj inšpiráciu na jednom mieste.',
         allTools: 'Všetky nástroje',
         comingSoon: 'Čoskoro'
     }
@@ -85,6 +87,8 @@ function updateLanguage() {
     if (blueNumEl) blueNumEl.setAttribute('aria-label', `${translations[lang].blue} value`);
 
     // Update landing page texts
+    const landingTitle = document.querySelector('.description-panel h2');
+    if (landingTitle) landingTitle.textContent = translations[lang].landingTitle;
     const description = document.querySelector('.description-panel p');
     if (description) description.textContent = translations[lang].description;
     const h2 = document.querySelector('h2');
