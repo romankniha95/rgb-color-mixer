@@ -91,8 +91,8 @@ function updateLanguage() {
     if (landingTitle) landingTitle.textContent = translations[lang].landingTitle;
     const description = document.querySelector('.description-panel p');
     if (description) description.innerHTML = translations[lang].description;
-    const h2 = document.querySelector('h2');
-    if (h2) h2.textContent = translations[lang].allTools;
+    const toolsHeading = document.querySelector('.tools-heading');
+    if (toolsHeading) toolsHeading.textContent = translations[lang].allTools;
     const placeholders = document.querySelectorAll('.tool-placeholder span');
     placeholders.forEach(span => span.textContent = translations[lang].comingSoon);
 }
