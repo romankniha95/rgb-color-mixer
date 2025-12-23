@@ -25,7 +25,7 @@ const translations = {
         aiError: 'An error occurred while communicating with AI. Please try again later.',
         aiErrorShort: 'Sorry, AI did not respond correctly.',
         landingTitle: 'RGB Values, Mixing, Color Names and Visual Harmony',
-        description: '<span class="intro-text">Discover the complex world of digital colors</span> <span class="no-wrap">– from precise RGB values and mathematical mixing to creative combinations, gradients and naming of shades.</span><br><br><span class="secondary-text">Create color palettes, experiment with mixing and understand how colors work in design and code.</span><br><span class="secondary-text">Whether you\'re creating a website, graphics or just exploring colors out of curiosity,</span><br><span class="secondary-text">here you\'ll find tools and inspiration in one place.</span>',
+        description: '<span class="no-wrap">Discover the complex world of digital colors – from precise RGB values and mathematical mixing to creative combinations, gradients and naming of shades.</span><br><br><span class="no-wrap">Create color palettes, experiment with mixing and understand how colors work in design and code.</span><br><br><span class="no-wrap">Whether you\'re creating a website, graphics or just exploring colors out of curiosity, here you\'ll find tools and inspiration in one place.</span>',
         allTools: 'All Tools',
         comingSoon: 'Coming Soon'
     },
@@ -431,271 +431,82 @@ if (red) {
 // Initialize language
 updateLanguage();
 
-// Interactive SVG egg cracking effect
+// Scroll-based gradient rotation
+let ticking = false;
+function updateGradientAngle() {
+  const angle = 135 + (window.scrollY / 10);
+  document.documentElement.style.setProperty('--bg-angle', angle + 'deg');
+  ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(updateGradientAngle);
+    ticking = true;
+  }
+});
+
+// Cube random color on click
+const cubeContainer = document.getElementById('cube-container');
+if (cubeContainer) {
+    cubeContainer.addEventListener('click', () => {
+        const color1 = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+        const color2 = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+        const faces = document.querySelectorAll('.face');
+        faces.forEach(face => {
+            face.style.background = `linear-gradient(45deg, ${color1}, ${color2})`;
+        });
+    });
+}
+
+// Interactive SVG 3D cubes effect
 const interactiveSvg = document.getElementById('interactive-svg');
 if (interactiveSvg) {
-    const colorCircle = document.getElementById('color-circle');
-    const cracksGroup = document.getElementById('cracks');
-    let clickCount = 0;
-    let currentColor = generateRandomColor();
-    let isHovered = false;
+    const cubesGroup = document.getElementById('cubes');
+    const colorSelector = document.getElementById('color-selector');
 
-    function generateRandomColor() {
-        const r = Math.floor(Math.random() * 256);
-        const g = Math.floor(Math.random() * 256);
-        const b = Math.floor(Math.random() * 256);
-        return `rgb(${r}, ${g}, ${b})`;
+    // Color palettes for each base color
+    const colorPalettes = {
+        red: ['#FF5722', '#E64A19', '#D84315', '#BF360C', '#B71C1C', '#AD1457'],
+        blue: ['#2196F3', '#1976D2', '#1565C0', '#0D47A1', '#0D47A1', '#01579B'],
+        green: ['#4CAF50', '#388E3C', '#2E7D32', '#1B5E20', '#1B5E20', '#0D47A1'],
+        yellow: ['#FFC107', '#FF9800', '#F57C00', '#EF6C00', '#E65100', '#BF360C'],
+        purple: ['#9C27B0', '#7B1FA2', '#6A1B9A', '#4A148C', '#4A148C', '#311B92']
+    };
+
+    function updateCube(color) {
+        const cubeElements = cubesGroup.querySelectorAll('rect, polygon');
+        cubeElements.forEach(element => {
+            element.setAttribute('fill', color);
+        });
     }
 
-    function updateCircleColor() {
-        const gradient = document.getElementById('circleGradient');
-        if (gradient) {
-            const stops = gradient.querySelectorAll('stop');
-            stops[1].style.stopColor = currentColor; // middle stop
-            const darkerColor = currentColor.replace('rgb(', 'rgba(').replace(')', ', 0.7)');
-            stops[2].style.stopColor = darkerColor; // bottom stop
+    function handleColorClick(event) {
+        const rect = colorSelector.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const width = rect.width;
+
+        // Determine which color was clicked (5 sections)
+        const sectionWidth = width / 5;
+        const section = Math.floor(clickX / sectionWidth);
+
+        let color;
+        switch (section) {
+            case 0: color = '#FF5722'; break;
+            case 1: color = '#2196F3'; break;
+            case 2: color = '#4CAF50'; break;
+            case 3: color = '#FFC107'; break;
+            case 4: color = '#9C27B0'; break;
+        }
+
+        if (color) {
+            updateCube(color);
         }
     }
 
+    // Add click event to color selector
+    colorSelector.addEventListener('click', handleColorClick);
 
-
-    function addCrack(clickX, clickY) {
-        // Create a jagged crack starting from click point, constrained to circle
-        const crackGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        crackGroup.setAttribute('class', 'crack-group');
-
-        // Circle center and radius
-        const centerX = 200;
-        const centerY = 150;
-        const maxRadius = 80; // Slightly less than circle radius
-
-        // Ensure click point is within circle bounds
-        const distanceFromCenter = Math.sqrt((clickX - centerX) ** 2 + (clickY - centerY) ** 2);
-        if (distanceFromCenter > maxRadius) {
-            // If click is outside circle, don't create crack
-            return;
-        }
-
-        // Main crack path with multiple segments
-        let pathData = `M ${clickX} ${clickY}`;
-
-        // Create branching crack segments
-        let currentX = clickX;
-        let currentY = clickY;
-        const segments = 5 + Math.random() * 3; // 5-8 segments (shorter)
-        const baseAngle = Math.random() * 360; // Random starting direction
-
-        for (let i = 0; i < segments; i++) {
-            const segmentLength = 8 + Math.random() * 12; // Shorter segments
-            const angleVariation = (Math.random() - 0.5) * 45; // ±22.5 degrees variation
-            const angle = baseAngle + angleVariation + (i * 3); // Slight curve
-
-            const nextX = currentX + Math.cos(angle * Math.PI / 180) * segmentLength;
-            const nextY = currentY + Math.sin(angle * Math.PI / 180) * segmentLength;
-
-            // Check if next point is within circle bounds
-            const nextDistance = Math.sqrt((nextX - centerX) ** 2 + (nextY - centerY) ** 2);
-            if (nextDistance > maxRadius) {
-                // Stop the crack if it would go outside the circle
-                break;
-            }
-
-            // Add some jaggedness
-            const midX = (currentX + nextX) / 2 + (Math.random() - 0.5) * 4;
-            const midY = (currentY + nextY) / 2 + (Math.random() - 0.5) * 4;
-
-            // Check mid point too
-            const midDistance = Math.sqrt((midX - centerX) ** 2 + (midY - centerY) ** 2);
-            if (midDistance > maxRadius) {
-                pathData += ` L ${nextX} ${nextY}`;
-            } else {
-                pathData += ` L ${midX} ${midY} L ${nextX} ${nextY}`;
-            }
-
-            currentX = nextX;
-            currentY = nextY;
-
-            // Sometimes create a branch (less frequent, shorter)
-            if (Math.random() < 0.2 && i > 1) {
-                const branchLength = segmentLength * 0.4;
-                const branchAngle = angle + 60 + (Math.random() - 0.5) * 20;
-                const branchX = midX + Math.cos(branchAngle * Math.PI / 180) * branchLength;
-                const branchY = midY + Math.sin(branchAngle * Math.PI / 180) * branchLength;
-
-                const branchDistance = Math.sqrt((branchX - centerX) ** 2 + (branchY - centerY) ** 2);
-                if (branchDistance <= maxRadius) {
-                    pathData += ` M ${midX} ${midY} L ${branchX} ${branchY}`;
-                }
-            }
-        }
-
-        // Create crack with gradient for more realistic appearance
-        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-        const gradientId = `crackGradient${Date.now()}${Math.random()}`;
-        const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-        gradient.setAttribute('id', gradientId);
-        gradient.setAttribute('x1', '0%');
-        gradient.setAttribute('y1', '0%');
-        gradient.setAttribute('x2', '100%');
-        gradient.setAttribute('y2', '0%');
-
-        const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-        stop1.setAttribute('offset', '0%');
-        stop1.setAttribute('style', 'stop-color:#666666;stop-opacity:0.8');
-        const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-        stop2.setAttribute('offset', '50%');
-        stop2.setAttribute('style', 'stop-color:#333333;stop-opacity:0.9');
-        const stop3 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-        stop3.setAttribute('offset', '100%');
-        stop3.setAttribute('style', 'stop-color:#666666;stop-opacity:0.8');
-
-        gradient.appendChild(stop1);
-        gradient.appendChild(stop2);
-        gradient.appendChild(stop3);
-        defs.appendChild(gradient);
-        crackGroup.appendChild(defs);
-
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', pathData);
-        path.setAttribute('stroke', `url(#${gradientId})`);
-        path.setAttribute('stroke-width', '2.5');
-        path.setAttribute('stroke-linecap', 'round');
-        path.setAttribute('stroke-linejoin', 'round');
-        path.setAttribute('fill', 'none');
-        path.setAttribute('opacity', '0');
-
-        // Calculate path length for animation
-        const pathLength = path.getTotalLength();
-        path.setAttribute('stroke-dasharray', pathLength);
-        path.setAttribute('stroke-dashoffset', pathLength);
-
-        crackGroup.appendChild(path);
-        cracksGroup.appendChild(crackGroup);
-        cracksGroup.style.display = 'block';
-
-        // Animate crack appearance
-        let progress = 0;
-        const animateCrack = () => {
-            progress += 0.03; // Speed of crack appearance
-            const offset = pathLength * (1 - progress);
-            path.setAttribute('stroke-dashoffset', offset);
-            path.setAttribute('opacity', progress * 0.85);
-
-            if (progress < 1) {
-                requestAnimationFrame(animateCrack);
-            }
-        };
-        animateCrack();
-    }
-
-    function explodeColors() {
-        // Clear all cracks immediately when exploding
-        cracksGroup.innerHTML = '';
-
-        // Create multiple colorful particles
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            const angle = (i / 20) * 360;
-            const distance = Math.random() * 100 + 50;
-            const size = Math.random() * 8 + 4;
-
-            particle.setAttribute('cx', 200);
-            particle.setAttribute('cy', 150);
-            particle.setAttribute('r', size);
-            particle.setAttribute('fill', generateRandomColor());
-            particle.setAttribute('opacity', '1');
-
-            // Add particles directly to SVG root for visibility
-            interactiveSvg.appendChild(particle);
-
-            // Animate particle flying out
-            let progress = 0;
-            const animate = () => {
-                progress += 0.02;
-                const currentDistance = distance * progress;
-                const x = 200 + Math.cos(angle * Math.PI / 180) * currentDistance;
-                const y = 150 + Math.sin(angle * Math.PI / 180) * currentDistance;
-                const opacity = Math.max(0, 1 - progress);
-
-                particle.setAttribute('cx', x);
-                particle.setAttribute('cy', y);
-                particle.setAttribute('opacity', opacity);
-
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    if (particle.parentNode) {
-                        interactiveSvg.removeChild(particle);
-                    }
-                }
-            };
-            animate();
-        }
-
-        // Hide original circle during explosion
-        colorCircle.style.display = 'none';
-
-        // Reset after explosion
-        setTimeout(() => {
-            colorCircle.style.display = 'block';
-
-            // Generate new color
-            currentColor = generateRandomColor();
-            updateCircleColor();
-
-            clickCount = 0;
-        }, 2000);
-    }
-
-    function shakeCircle() {
-        let shakeCount = 0;
-        const shake = () => {
-            shakeCount++;
-            const offsetX = (Math.random() - 0.5) * 8;
-            const offsetY = (Math.random() - 0.5) * 8;
-            colorCircle.setAttribute('transform', `translate(${offsetX}, ${offsetY})`);
-
-            // Also shake all cracks
-            const crackGroups = cracksGroup.querySelectorAll('.crack-group');
-            crackGroups.forEach(group => {
-                group.setAttribute('transform', `translate(${offsetX}, ${offsetY})`);
-            });
-
-            if (shakeCount < 6) {
-                setTimeout(shake, 50);
-            } else {
-                colorCircle.setAttribute('transform', 'translate(0, 0)');
-                // Reset crack positions too
-                crackGroups.forEach(group => {
-                    group.setAttribute('transform', 'translate(0, 0)');
-                });
-            }
-        };
-        shake();
-    }
-
-    function handleClick(e) {
-        const rect = interactiveSvg.getBoundingClientRect();
-        const clickX = e.clientX - rect.left;
-        const clickY = e.clientY - rect.top;
-
-        // Shake effect on every click
-        shakeCircle();
-
-        clickCount++;
-
-        if (clickCount <= 14) {
-            // Add crack at click position
-            addCrack(clickX, clickY);
-        } else if (clickCount === 15) {
-            // Explode
-            setTimeout(explodeColors, 300); // Delay explosion to let shake finish
-        }
-    }
-
-    // Initialize with random color
-    updateCircleColor();
-
-    // Add event listeners to the circle only
-    colorCircle.addEventListener('click', handleClick);
+    // Initialize with green
+    updateCube('#4CAF50');
 }

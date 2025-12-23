@@ -15,7 +15,7 @@
 <body>
     <header class="topbar">
         <div class="topbar-inner">
-            <h1><img src="src/icons/color-logo.svg" alt="Color Logo" class="logo-icon"> Color Tools</h1>
+            <a href="index.html" class="logo-link"><h1><img src="src/icons/color-logo.svg" alt="Color Logo" class="logo-icon"> <span style="background: linear-gradient(45deg, #ff4444, #ffaa44); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Color</span><span style="background: linear-gradient(45deg, #44aaff, #2266cc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Tools</span></h1></a>
             <div class="top-controls">
                 <button id="langToggle" class="lang-toggle" aria-label="Toggle language">EN</button>
                 <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Prepni tmavý režim">
@@ -39,17 +39,18 @@
                 <h2></h2>
                 <p></p>
             </div>
-            <svg viewBox="0 0 400 300" id="interactive-svg" class="hero-image" style="background: transparent; cursor: pointer;">
-                <defs>
-                    <radialGradient id="circleGradient" cx="50%" cy="30%" r="70%">
-                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9"/>
-                        <stop offset="70%" style="stop-color:#ff4444;stop-opacity:0.8"/>
-                        <stop offset="100%" style="stop-color:#cc0000;stop-opacity:1"/>
-                    </radialGradient>
-                </defs>
-                <circle id="color-circle" cx="200" cy="150" r="85" fill="url(#circleGradient)" opacity="1" stroke="#330000" stroke-width="3"/>
-                <g id="cracks" style="display:none;"></g>
-            </svg>
+            <div class="hero-image">
+                <div id="cube-container">
+                    <div class="cube">
+                        <div class="face front"></div>
+                        <div class="face back"></div>
+                        <div class="face left"></div>
+                        <div class="face right"></div>
+                        <div class="face top"></div>
+                        <div class="face bottom"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <h2 class="tools-heading">All Tools</h2>
