@@ -222,6 +222,8 @@ body{
     .app-panel{padding:16px}
     .description-panel{flex-direction:column;gap:20px;text-align:center}
     .description-panel .hero-image{width:150px}
+    .description-panel h2{font-size:28px; white-space: normal;}
+    .description-panel p{max-width: none;}
     h2{font-size:24px}
     .cube { width: 80px; height: 80px; }
     .face { width: 80px; height: 80px; }
